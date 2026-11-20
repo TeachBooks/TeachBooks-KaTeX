@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "teachbooks-katex"
+dynamic=["version"]
+description = "A wrapper for sphinxcontrib.katex that (1) converts MathJax settings to KaTeX settings (2) adds CSS specifically suited for TeachBooks."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Dennis den Ouden-van der Horst", email = "d.denouden-vanderhorst@tudelft.nl" }
+]
+dependencies = [
+    "sphinx",
+    # waiting for merge of https://github.com/hagenw/sphinxcontrib-katex/pull/146
+    "sphinxcontrib.katex @ https://github.com/TeachBooks/sphinxcontrib-katex@382eb35"
+]
+
+requires-python = ">=3.11"
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/teachbooks_katex/_version.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
