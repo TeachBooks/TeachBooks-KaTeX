@@ -14,7 +14,7 @@ authors = [
 dependencies = [
     "sphinx",
     # waiting for merge of https://github.com/hagenw/sphinxcontrib-katex/pull/146
-    "sphinxcontrib.katex @ https://github.com/TeachBooks/sphinxcontrib-katex@382eb35"
+    "sphinxcontrib.katex @ git+https://github.com/TeachBooks/sphinxcontrib-katex@382eb35"
 ]
 
 requires-python = ">=3.11"
