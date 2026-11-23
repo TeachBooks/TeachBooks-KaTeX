@@ -58,8 +58,6 @@ are shown if applicable.
 
 ## Usage
 
-After adding TeachBooks KaTeX to your extra extensions you are done.
-
 Some existing MathJax settings will be automatically ported to KaTeX settings from [sphinxcontrib.katex](https://sphinxcontrib-katex.readthedocs.io/). The next table indicates which are currently supported:
 
 | MathJax setting | Status | KaTeX result |
@@ -76,7 +74,10 @@ Furthermore, the following changes are made compared to the defaults from [sphin
 | `katex_options.trust` | `False` | `True` | Enables KaTeX commands starting with `html`, such as `\htmlClass` for custom styling. |
 | `katex_options.strict` | `True` | `False` | Disables stopping on rendering errors or warnings, allowing builds to continue even if some math fails to render. |
 | `katex_options.macros.\class` | Not defined | `\htmlClass{#1}{#2}` | Provides a MathJax-compatible `\class` macro for adding CSS classes to math expressions. |
-| `katex_custom_css` | CSS provided by sphinxcontrib.katex | `teachbooks-katex-math.css` (if not overridden by user in Sphinx configuration.) | Loads TeachBooks-specific styling for mathematics rendering. User values are not overridden. |
+| `katex_custom_css` | CSS provided by [sphinxcontrib.katex](https://sphinxcontrib-katex.readthedocs.io/) | `teachbooks-katex-math.css` (if not overridden by user in Sphinx configuration.) | Loads TeachBooks-specific styling for mathematics rendering. User values are not overridden. |
 
 These defaults can be overridden by adding options from [sphinxcontrib.katex](https://sphinxcontrib-katex.readthedocs.io/) in your Sphinx configuration.
 
+## Contribute
+
+This tool's repository is stored on [GitHub](https://github.com/TeachBooks/TeachBooks-KaTeX). If you'd like to contribute, you can open an issue or create a pull request on the [GitHub repository](https://github.com/TeachBooks/TeachBooks-KaTeX).
