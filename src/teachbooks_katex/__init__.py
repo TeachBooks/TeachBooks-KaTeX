@@ -45,8 +45,9 @@ def port_and_set_config(app: Sphinx, config: Config):
             f"must be a true boolean, not {settings['show_warnings']!r} "
             f"({type(settings['show_warnings']).__name__})"
         )
-    # Add our custom CSS using the sphinxcontrib.katex interface
-    config.katex_custom_css = "teachbooks-katex-math.css"
+    # Add our custom CSS using the sphinxcontrib.katex interface,
+    # without overriding a user value
+    config.katex_custom_css = "teachbooks-katex-math.css" | config.katex_custom_css
     # Load user KaTeX settings
     katex_options = config.katex_options
     if isinstance(katex_options, str):
@@ -66,6 +67,26 @@ def port_and_set_config(app: Sphinx, config: Config):
     mathjax3_config = config.mathjax3_config
     mathjax3_original = deepcopy(mathjax3_config)
     if mathjax3_config:
+        if "loader" in mathjax3_config:
+            if "load" in mathjax3_config["loader"]:
+                if "ui/lazy" in mathjax3_config["loader"]["load"]:
+                    if settings["show_warnings"]:
+                        logger.warning(
+                            "[TeachBooks-KaTeX] KaTeX does not (yet) support "
+                            "lazy-loading. "
+                            "If you would like to have this option, "
+                            "please raise an issue or open a pull request. "
+                            "Alternatively, consider setting "
+                            "`config.katex_prerender = true` "
+                            "and install `node.js`."
+                        )
+                    mathjax3_original["loader"]["load"].remove("ui/lazy")
+                # clean up "loader.load"
+                if not mathjax3_original["loader"]["load"]:
+                    mathjax3_original["loader"].pop("load", None)
+            # clean up "loader"
+            if not mathjax3_original["loader"]:
+                mathjax3_original.pop("loader", None)
         if "chtml" in mathjax3_config:
             if "mtextInheritFont" in mathjax3_config["chtml"]:
                 config.katex_inherit_font = True
@@ -114,9 +135,8 @@ def port_and_set_config(app: Sphinx, config: Config):
                                         f"with `{new_command}`."
                                     )
                         command = command[0]
-                    if (
-                        name not in katex_options["macros"]
-                    ):  # katex defined macros take precedence
+                    # katex defined macros take precedence
+                    if name not in katex_options["macros"]:
                         katex_options["macros"][str(name)] = command
                 # register handling of "tex.macros"
                 mathjax3_original["tex"].pop("macros", None)
@@ -124,7 +144,7 @@ def port_and_set_config(app: Sphinx, config: Config):
             if not mathjax3_original["tex"]:
                 mathjax3_original.pop("tex", None)
     config.katex_options = katex_options
-    if settings["show_warnings"]:
+    if settings["show_warnings"] and mathjax3_original:
         logger.warning(
             "[TeachBooks-KaTeX] The following options in `mathjax3_config` "
             "have not been processed:\n"
