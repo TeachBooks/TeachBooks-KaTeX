@@ -28,6 +28,3 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/teachbooks_katex"]
-
-[tool.hatch.build.targets.wheel.force-include]
-"src/teachbooks_katex/_static" = "teachbooks_katex/_static"
