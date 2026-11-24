@@ -47,7 +47,7 @@ def port_and_set_config(app: Sphinx, config: Config):
         )
     # Add our custom CSS using the sphinxcontrib.katex interface,
     # without overriding a user value
-    config.katex_custom_css = "teachbooks-katex-math.css" | config.katex_custom_css
+    config.katex_custom_css = config.katex_custom_css or "teachbooks-katex-math.css"
     # Load user KaTeX settings
     katex_options = config.katex_options
     if isinstance(katex_options, str):
